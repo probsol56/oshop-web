@@ -1,0 +1,139 @@
+<div class="row">
+  <div class="col-md-10">
+    <form #f="ngForm" (ngSubmit)="save(f.value)">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Title</label>
+        <input
+          #product_name="ngModel"
+          [(ngModel)]="product.product_name" name="product_name"
+          id="title"
+          type="text"
+          class="form-control col-md-4"
+          required>
+        <div class="alert alert-danger"
+             *ngIf="product_name.touched && product_name.invalid">Title is required
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Description</label>
+        <textarea
+          #description="ngModel"
+          [(ngModel)]="product.description" name="description"
+          id="description"
+          type="text"
+          class="form-control col-md-4"
+          required>
+        <div class="alert alert-danger"
+             *ngIf="description.touched && description.invalid">Description is required
+        </div>
+        </textarea>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Category</label>
+        <select
+          #cat="ngModel"
+          [(ngModel)]="product.cat" name="cat"
+          id="category"
+          class="form-control col-md-4"
+          required>
+          <option value=""></option>
+          <option *ngFor="let c of categories" [value]="c.id">{{c.cat_name}}</option>
+        </select>
+        <div class="alert alert-danger"
+             *ngIf="cat.touched && cat.invalid">Please select category
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2">Cost Price</label>
+        <div class="input-group-prepend">
+          <span class="input-group-text">BDT.</span>
+        </div>
+        <input
+          type="number"
+          #cost_price="ngModel"
+          id="cost_price"
+          [(ngModel)]="product.cost_price" name="cost_price"
+          class="form-control col-md-2"
+          required
+          [min]="1">
+        <div class="alert alert-danger" *ngIf="cost_price.touched && cost_price.invalid">
+          <div *ngIf="cost_price.errors.required">Cost price is required</div>
+          <div *ngIf="cost_price.errors.min">Cost price should be greater than zero</div>
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="col-sm-2">Selling Price</label>
+        <div class="input-group-prepend">
+          <span class="input-group-text">BDT.</span>
+        </div>
+        <input
+          type="number"
+          #sell_price="ngModel"
+          id="sell_price"
+          [(ngModel)]="product.sell_price" name="sell_price"
+          class="form-control col-md-2"
+          required
+          [min]="1">
+        <div class="alert alert-danger" *ngIf="sell_price.touched && sell_price.invalid">
+          <div *ngIf="sell_price.errors.required">Sell price is required</div>
+          <div *ngIf="sell_price.errors.min">Sell price should be greater than zero</div>
+        </div>
+      </div>
+      <div class="form-group row ">
+        <label class="col-sm-2">Discount Price</label>
+        <div class="input-group-prepend">
+          <span class="input-group-text">BDT.</span>
+        </div>
+        <input
+          type="number"
+          #discount_price="ngModel"
+          id="discount_price"
+          [(ngModel)]="product.discount_price" name="discount_price"
+          class="form-control col-md-2"
+          [min]="0"
+          required>
+        <div class="alert alert-danger" *ngIf="discount_price.touched && discount_price.invalid">
+          <div *ngIf="discount_price.errors.required">Discount price is required</div>
+          <div *ngIf="discount_price.errors.min">Discount price should not be less than zero</div>
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2">Upload Image</label>
+        <input
+          #image
+          type="file"
+          name="image"
+          (change)="previewImage($event)"
+          required>
+        <div class="alert alert-danger"
+             *ngIf="image.touched && image.invalid">Image is required
+        </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2">Image URL</label>
+        <input
+          type="text"
+          #image_url="ngModel"
+          [(ngModel)]="imgURL" name="image_url"
+          class="form-control col-md-8"
+          >
+      </div>
+      <div class="form-group row">
+        <div class="form-check">
+          <input
+            #active="ngModel"
+            class=" form-check-input"
+            type="checkbox"
+            id="defaultCheck1"
+            [(ngModel)]="product.active" name="active">
+          <label class="form-check-label" for="defaultCheck1">Active</label>
+        </div>
+      </div>
+      <button class="btn btn-primary" [disabled]="f.invalid">Save</button>
+    </form>
+  </div>
+  <div class="col-md-2">
+    <product-card [product]="product" [show-actions]="false"></product-card>
+  </div>
+
+</div>
